@@ -511,7 +511,11 @@ export const dashboardTranslations = {
 };
 
 export function useTranslation(language: LanguageType) {
+  const lang = language && dashboardTranslations[language as keyof typeof dashboardTranslations]
+    ? language
+    : 'en';
+  const dict = dashboardTranslations[lang];
   return (key: keyof typeof dashboardTranslations.en) => {
-    return dashboardTranslations[language][key] || dashboardTranslations.en[key];
+    return (dict && dict[key]) || dashboardTranslations.en[key] || String(key);
   };
 }
