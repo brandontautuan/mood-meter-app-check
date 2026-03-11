@@ -510,12 +510,14 @@ export const dashboardTranslations = {
   }
 };
 
-export function useTranslation(language: LanguageType) {
-  const lang = language && dashboardTranslations[language as keyof typeof dashboardTranslations]
-    ? language
-    : 'en';
+/** Returns a translation function. Always returns a callable function. */
+export function useTranslation(language: LanguageType): (key: keyof typeof dashboardTranslations.en) => string {
+  const lang: keyof typeof dashboardTranslations =
+    language === 'es' || language === 'ru' ? language : 'en';
   const dict = dashboardTranslations[lang];
-  return (key: keyof typeof dashboardTranslations.en) => {
-    return (dict && dict[key]) || dashboardTranslations.en[key] || String(key);
-  };
+  function t(key: keyof typeof dashboardTranslations.en): string {
+    const out = dict[key] ?? dashboardTranslations.en[key];
+    return typeof out === 'string' ? out : String(key);
+  }
+  return t;
 }
