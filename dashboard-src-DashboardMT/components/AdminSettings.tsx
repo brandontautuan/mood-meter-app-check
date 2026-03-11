@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Textarea } from './ui/textarea';
 import { Trash2, Plus, Eye, EyeOff, Save, Shield } from 'lucide-react';
 import { toast } from 'sonner';
+import { loadConfig, saveConfig as saveAppConfig, type AppConfig } from '../utils/appConfig';
 
 // Types for admin configuration
 interface CustomEmotion {
@@ -81,25 +82,32 @@ export function AdminSettings({ isAuthenticated, onConfigChange }: AdminSettings
   const [newApiConfig, setNewApiConfig] = useState({ name: '', endpoint: '', apiKey: '', description: '' });
   const [showApiKeys, setShowApiKeys] = useState<Record<string, boolean>>({});
 
-  // Load config from localStorage on mount
+  // Load config from localStorage (same key as appConfig / LocationStats: moodmeter_app_config)
   useEffect(() => {
-    const savedConfig = localStorage.getItem('moodmeter_admin_config');
-    if (savedConfig) {
-      try {
-        const parsed = JSON.parse(savedConfig);
-        setConfig(prevConfig => ({
-          ...prevConfig,
-          ...parsed,
-          languages: parsed.languages || defaultLanguages
-        }));
-      } catch (error) {
-        console.error('Error loading admin config:', error);
-      }
+    try {
+      const appConfig = loadConfig();
+      setConfig(prevConfig => ({
+        ...prevConfig,
+        locations: appConfig.locations ?? prevConfig.locations,
+        languages: appConfig.languages?.length ? appConfig.languages : defaultLanguages,
+        apiConfigs: appConfig.apiConfigurations ?? prevConfig.apiConfigs,
+        customEmotions: (appConfig as unknown as { customEmotions?: AdminConfig['customEmotions'] }).customEmotions ?? prevConfig.customEmotions
+      }));
+    } catch (error) {
+      console.error('Error loading admin config:', error);
     }
   }, []);
 
   const saveConfig = () => {
-    localStorage.setItem('moodmeter_admin_config', JSON.stringify(config));
+    const appConfig: AppConfig = {
+      ...loadConfig(),
+      locations: config.locations,
+      languages: config.languages,
+      apiConfigurations: config.apiConfigs,
+      customEmotions: config.customEmotions as AppConfig['customEmotions'],
+      defaultLanguage: config.languages.find(l => l.isDefault)?.code ?? 'en'
+    };
+    saveAppConfig(appConfig);
     onConfigChange?.(config);
     toast.success('Configuration saved successfully!');
   };

@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { MapPin, Users, Percent } from 'lucide-react';
+import { loadConfig } from '../utils/appConfig';
 
 interface MoodEntry {
   id: string;
@@ -10,13 +11,6 @@ interface MoodEntry {
   timestamp: string;
   locationId?: string;
   themePreference?: 'light' | 'dark';
-}
-
-interface Location {
-  id: string;
-  name: string;
-  description?: string;
-  enabled: boolean;
 }
 
 interface LocationStatsProps {
@@ -37,17 +31,9 @@ const LOCATION_COLORS = [
 
 export function LocationStats({ data }: LocationStatsProps) {
   const locationStats = useMemo(() => {
-    // Load locations from admin config
-    let availableLocations: Location[] = [];
-    try {
-      const adminConfig = localStorage.getItem('moodmeter_admin_config');
-      if (adminConfig) {
-        const config = JSON.parse(adminConfig);
-        availableLocations = config.locations || [];
-      }
-    } catch (error) {
-      console.error('Error loading location config:', error);
-    }
+    // Load locations from app config (same key as DashboardSettings / appConfig)
+    const config = loadConfig();
+    const availableLocations = config.locations || [];
 
     // Count check-ins by location
     const locationCounts = data.reduce((acc, entry) => {

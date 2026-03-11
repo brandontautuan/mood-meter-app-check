@@ -18,6 +18,7 @@ import { DashboardSettings } from './components/DashboardSettings';
 import { DashboardTutorial } from './components/DashboardTutorial';
 import { ReactionTimeChart } from './components/ThemePreferenceChart';
 import { LocationStats } from './components/LocationStats';
+import { AirQualityPanel } from './components/AirQualityPanel';
 import { 
   generateMockData, 
   generateMockDataForDateRange, 
@@ -30,7 +31,7 @@ import { filterByLocation } from './utils/filterUtils';
 import { useTranslation, LanguageType } from './utils/dashboardTranslations';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { getTranslatedL1Label, getTranslatedL2Label } from './utils/emotionCategories';
-import { Moon, Sun, Settings, LogOut } from 'lucide-react';
+import { Moon, Sun, Settings, LogOut, Wind, LayoutDashboard } from 'lucide-react';
 import type { DateRange } from 'react-day-picker';
 import { Toaster } from './components/ui/sonner';
 
@@ -45,6 +46,7 @@ function DashboardContent() {
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
+  const [showAirQuality, setShowAirQuality] = useState(false);
   
   const { language, setLanguage } = useLanguage();
   const t = useTranslation(language);
@@ -166,6 +168,20 @@ function DashboardContent() {
               onStartTutorial={() => setShowTutorial(true)}
             />
             <ExportButtons data={moodData} stats={stats} />
+            <Button
+              variant={showAirQuality ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => setShowAirQuality(!showAirQuality)}
+            >
+              <Wind className="h-4 w-4 mr-2" />
+              Air quality
+            </Button>
+            {showAirQuality && (
+              <Button variant="ghost" size="sm" onClick={() => setShowAirQuality(false)}>
+                <LayoutDashboard className="h-4 w-4 mr-2" />
+                Back to dashboard
+              </Button>
+            )}
             <div className="flex items-center space-x-2">
               <Sun className="h-4 w-4 text-muted-foreground" />
               <Switch 
@@ -179,6 +195,14 @@ function DashboardContent() {
           </div>
         </div>
 
+        {/* Air quality view (when toggled) */}
+        {showAirQuality ? (
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold">Air quality</h2>
+            <AirQualityPanel />
+          </div>
+        ) : (
+          <>
         {/* Date Search and Custom Range */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <DateSearch 
@@ -282,6 +306,8 @@ function DashboardContent() {
             </div>
           </TabsContent>
         </Tabs>
+          </>
+        )}
       </div>
       
       {/* Tutorial Component */}

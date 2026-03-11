@@ -390,11 +390,14 @@ export function AdminSettings({ isAuthenticated, onLogout }: AdminSettingsProps)
 
             {/* Locations Tab */}
             <TabsContent value="locations" className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Locations here are used to <strong>filter</strong> mood data on the dashboard. This dashboard does not show a list of kiosks by device. To manage or view kiosks (device ID → location), use the Supabase dashboard (<code className="text-xs bg-muted px-1 rounded">src-DashboardMT</code>) and its Admin → Locations tab.
+              </p>
               <Card>
                 <CardHeader>
                   <CardTitle>Add Location</CardTitle>
                   <CardDescription>
-                    Add kiosk locations for mood meter tracking
+                    Add location names for filtering mood entries
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
