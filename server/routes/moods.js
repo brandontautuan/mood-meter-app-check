@@ -49,6 +49,12 @@ async function insertMood(entry) {
 }
 
 router.get('/', async (_req, res) => {
+  if (!supabase) {
+    return res.status(503).json({
+      error: 'Supabase not configured',
+      hint: 'Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in server/.env',
+    });
+  }
   try {
     const moods = await readMoods();
     res.json(moods);
@@ -59,6 +65,12 @@ router.get('/', async (_req, res) => {
 });
 
 router.post('/', async (req, res) => {
+  if (!supabase) {
+    return res.status(503).json({
+      error: 'Supabase not configured',
+      hint: 'Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in server/.env',
+    });
+  }
   const entry = req.body;
 
   if (!entry) return res.status(400).json({ error: 'missing_body' });
