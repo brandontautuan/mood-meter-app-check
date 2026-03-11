@@ -162,6 +162,63 @@ Submit a new mood entry.
 }
 ```
 
+### GET `/api/purpleair`
+Proxy to the PurpleAir API so the frontend never sees the API key.
+
+**Env (backend `server/.env` or Railway variables):**
+
+- `PURPLEAIR_READ_KEY`: PurpleAir READ API key
+- `PURPLEAIR_SENSOR_IDS`: Comma-separated sensor indexes (e.g. `127669,125385`)
+
+**Response (simplified):**
+
+```json
+{
+  "sensors": [
+    {
+      "name": "InnovationCenterPurple FLC - Outdoor",
+      "sensor_index": 127669,
+      "pm2.5_cf_1": 8.3,
+      "pm2.5_atm": 7.9,
+      "last_seen": 1731351234,
+      "temperature": 65.2,
+      "humidity": 42
+    }
+  ]
+}
+```
+
+## 🧩 Adding new backend APIs for data correlation
+
+When you need a new API for correlation or analytics (e.g. combining PurpleAir with mood data), follow this pattern:
+
+1. **Create an Express route** in `server/routes/`  
+   - Example: `server/routes/correlations.js`
+   - Mount it in `server/index.js` with `app.use('/api/correlations', correlationsRouter);`
+   - Keep the response shapes simple, typed, and focused on what the dashboard actually needs (arrays of objects with primitives).
+
+2. **Call external services only from the backend**  
+   - Put all secret keys in `server/.env` (local) and Railway variables (prod).
+   - Do aggregation/joins here (e.g. fetch moods from Supabase + air quality from PurpleAir, return one combined array).
+
+3. **Create a typed service in the dashboard**  
+   - Add a file under `src-DashboardMT/services/`, for example `correlations.ts`.
+   - Use the helper pattern from `purpleair.ts`:
+     - Derive base URL from `VITE_API_BASE_URL`.
+     - Define TypeScript interfaces for the response.
+     - Export small functions like `fetchMoodAirQualityCorrelations()`.
+
+4. **Render it via a dedicated component**  
+   - Create a component in `src-DashboardMT/components/` (e.g. `MoodAirQualityCorrelation.tsx`).
+   - Call the service in a `useEffect`, store data in local state, and render charts/cards.
+   - Optionally add a new tab in `App.tsx` (like the **Air quality** tab) or a new section inside an existing tab.
+
+This keeps the architecture consistent:
+
+- **Server**: owns all secrets, talks to external APIs and the database, returns clean JSON.
+- **Dashboard services**: thin wrappers around `/api/...` endpoints.
+- **Dashboard components**: visualizations that consume those services.
+
 ## 🛠️ Tech Stack
 
 **Frontend:**
