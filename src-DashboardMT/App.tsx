@@ -25,6 +25,7 @@ import type { DateRange } from "react-day-picker";
 import { LocationsAdmin } from "./components/LocationsAdmin";
 import { AirQualityPanel } from "./components/AirQualityPanel";
 import { getTestingMode, setTestingMode } from "./utils/testingMode";
+import { Button } from "./components/ui/button";
 
 type TimePeriod = "day" | "week" | "month" | "year";
 type Tab = TimePeriod | "admin" | "airquality";
@@ -191,6 +192,9 @@ export default function App() {
 
           <div className="flex items-center gap-4 flex-wrap">
             <ExportButtons data={moodData} stats={stats} />
+            <Button variant="outline" onClick={() => setTab("airquality")}>
+              Air quality
+            </Button>
             <div className="flex items-center space-x-2">
               <Label htmlFor="testing-mode" className="text-sm text-muted-foreground">Demo mode</Label>
               <Switch
@@ -216,7 +220,7 @@ export default function App() {
         </div>
 
         <Tabs value={tab} onValueChange={(v) => setTab(v as Tab)}>
-          <TabsList className={`grid w-full max-w-3xl gap-1 ${testingMode ? "grid-cols-5" : "grid-cols-6"}`}>
+          <TabsList className="flex flex-wrap justify-center gap-2 w-full max-w-3xl">
             <TabsTrigger value="day">Day</TabsTrigger>
             <TabsTrigger value="week">Week</TabsTrigger>
             <TabsTrigger value="month">Month</TabsTrigger>
