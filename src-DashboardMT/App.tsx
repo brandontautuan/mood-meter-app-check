@@ -23,10 +23,11 @@ import { fetchMoodEntries } from "./services/api";
 import { Moon, Sun } from "lucide-react";
 import type { DateRange } from "react-day-picker";
 import { LocationsAdmin } from "./components/LocationsAdmin";
+import { AirQualityPanel } from "./components/AirQualityPanel";
 import { getTestingMode, setTestingMode } from "./utils/testingMode";
 
 type TimePeriod = "day" | "week" | "month" | "year";
-type Tab = TimePeriod | "admin";
+type Tab = TimePeriod | "admin" | "airquality";
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("week");
@@ -215,11 +216,12 @@ export default function App() {
         </div>
 
         <Tabs value={tab} onValueChange={(v) => setTab(v as Tab)}>
-          <TabsList className={`grid w-full max-w-2xl ${testingMode ? "grid-cols-4" : "grid-cols-5"}`}>
+          <TabsList className={`grid w-full max-w-3xl gap-1 ${testingMode ? "grid-cols-5" : "grid-cols-6"}`}>
             <TabsTrigger value="day">Day</TabsTrigger>
             <TabsTrigger value="week">Week</TabsTrigger>
             <TabsTrigger value="month">Month</TabsTrigger>
             <TabsTrigger value="year">Year</TabsTrigger>
+            <TabsTrigger value="airquality">Air quality</TabsTrigger>
             {!testingMode && <TabsTrigger value="admin">Admin</TabsTrigger>}
           </TabsList>
 
@@ -237,6 +239,10 @@ export default function App() {
 
           <TabsContent value="year" className="space-y-6 mt-6">
             {AnalyticsPanel}
+          </TabsContent>
+
+          <TabsContent value="airquality" className="space-y-6 mt-6">
+            <AirQualityPanel />
           </TabsContent>
 
           {!testingMode && (
