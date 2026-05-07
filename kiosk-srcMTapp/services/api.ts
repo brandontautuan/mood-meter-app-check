@@ -1,48 +1,19 @@
 /**
-<<<<<<< HEAD:kiosk-srcMTapp/services/api.ts
- * API service for Mood Meter App
- * Handles communication with the backend API to submit mood entries
- * Supports both traditional API and Supabase
+ * API service for Mood Meter App (kiosk)
+ * Sends mood entries to the backend server, which writes to Supabase.
+ * Also supports direct Supabase submission when VITE_SUPABASE_URL/ANON_KEY are set.
  */
 
 import { SupabaseApiService } from './supabaseApi';
 
-// Backend API base URL - can be overridden via Vite env (VITE_API_BASE_URL)
-const API_BASE_URL = (import.meta as any).env?.VITE_API_BASE_URL ?? 'http://localhost:4000';
-
-// Check if Supabase is configured
-const USE_SUPABASE = !!(import.meta as any).env?.VITE_SUPABASE_URL && !!(import.meta as any).env?.VITE_SUPABASE_ANON_KEY;
-
-/**
- * Interface for a mood entry object
- */
-export interface MoodEntry {
-  id: string;
-  timestamp: string;
-  dateOnly: string;
-  l1: {
-    id: string;
-    label: string;
-  };
-  l2: {
-    id: string;
-    label: string;
-  };
-  timeToSelectMs: number;
-}
-
-/**
- * Submits a mood entry to the backend API or Supabase
- * @param entry - The mood entry data to submit
- * @returns Promise that resolves when the entry is successfully saved
-=======
- * API service for Mood Meter App (kiosk)
- * Sends mood entries to the backend server, which writes to Supabase.
- */
-
 // Server base URL — can be overridden with Vite env (VITE_API_BASE_URL)
 const API_BASE_URL =
   (import.meta as any).env?.VITE_API_BASE_URL ?? 'http://localhost:4001';
+
+// Direct Supabase submission is on when both env vars are configured
+const USE_SUPABASE =
+  !!(import.meta as any).env?.VITE_SUPABASE_URL &&
+  !!(import.meta as any).env?.VITE_SUPABASE_ANON_KEY;
 
 /** Payload the server expects at POST /api/moods */
 export interface SubmitMoodPayload {
@@ -55,31 +26,22 @@ export interface SubmitMoodPayload {
 }
 
 /**
- * Submit a mood entry to the server (which inserts into Supabase).
- * If the network/DB fails, we also stash a backup in localStorage.
->>>>>>> 74d17279f63b48d08bed459a8caf08f582ab6fcc:srcMTapp/services/api.ts
+ * Submit a mood entry. Goes directly to Supabase if configured,
+ * otherwise POSTs to the backend server (which writes to Supabase).
+ * On failure we stash a backup in localStorage so it can be re-sent later.
  */
 export async function submitMoodEntry(entry: SubmitMoodPayload): Promise<void> {
   try {
-<<<<<<< HEAD:kiosk-srcMTapp/services/api.ts
-    // Use Supabase if configured, otherwise use traditional API
     if (USE_SUPABASE) {
-      console.log('Using Supabase for mood entry submission');
       const result = await SupabaseApiService.submitMoodEntry(entry);
-      
       if (!result.success) {
         throw new Error(result.error || 'Failed to submit to Supabase');
       }
-      
-      console.log('Mood entry submitted successfully to Supabase:', result.data);
+      console.log('Mood entry submitted to Supabase:', result.data);
       return;
     }
 
-    // Traditional API submission
-    const response = await fetch(`${API_BASE_URL}/api/moods`, {
-=======
     const res = await fetch(`${API_BASE_URL}/api/moods`, {
->>>>>>> 74d17279f63b48d08bed459a8caf08f582ab6fcc:srcMTapp/services/api.ts
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(entry),
@@ -92,13 +54,8 @@ export async function submitMoodEntry(entry: SubmitMoodPayload): Promise<void> {
       );
     }
 
-<<<<<<< HEAD:kiosk-srcMTapp/services/api.ts
-    const data = await response.json();
-    console.log('Mood entry submitted successfully to API:', data);
-=======
     const data = await res.json().catch(() => ({}));
     console.log('Mood entry submitted successfully:', data);
->>>>>>> 74d17279f63b48d08bed459a8caf08f582ab6fcc:srcMTapp/services/api.ts
   } catch (error) {
     console.error('Error submitting mood entry:', error);
     saveToLocalStorage(entry);

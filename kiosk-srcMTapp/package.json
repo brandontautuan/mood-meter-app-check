@@ -54,11 +54,7 @@
           "vite": "6.3.5"
       },
       "scripts": {
-<<<<<<< HEAD
           "dev": "vite --host",
-=======
-          "dev": "vite",
->>>>>>> 74d17279f63b48d08bed459a8caf08f582ab6fcc
           "build": "vite build"
       }
   }

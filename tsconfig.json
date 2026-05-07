@@ -4,11 +4,9 @@
     "src/**",
     "node_modules/**",
     "server/**",
-    "dashboard-src-DashboardMT/node_modules/**",
     "kiosk-srcMTapp/node_modules/**"
   ],
   "references": [
-    { "path": "./dashboard-src-DashboardMT" },
     { "path": "./kiosk-srcMTapp" }
   ]
 }

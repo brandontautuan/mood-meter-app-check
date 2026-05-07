@@ -1,8 +1,7 @@
 node_modules
 dist
+build
 .env
-<<<<<<< HEAD
-=======
 .env.local
 .env.*.local
 
@@ -40,6 +39,3 @@ temp/
 # server/data/moods.json
 
 server/.env
-src-DashboardMT/.env
-srcMTapp/.env
->>>>>>> 74d17279f63b48d08bed459a8caf08f582ab6fcc

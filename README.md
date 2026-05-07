@@ -6,9 +6,9 @@ An interactive React-based mood tracking application with a teacher dashboard fo
 
 This project consists of three main components:
 
-1. **Student App** (`srcMTapp/`) - Interactive mood meter interface for students
-2. **Teacher Dashboard** (`src-DashboardMT/`) - Data visualization and analysis dashboard
-3. **Backend API** (`server/`) - Node.js/Express server with file-based storage
+1. **Kiosk Student App** (`kiosk-srcMTapp/`) - Interactive mood meter interface for students
+2. **Teacher Dashboard** (`dashboard-figma-dashboard/`) - Data visualization and analysis dashboard
+3. **Backend API** (`server/`) - Node.js/Express server (Supabase-backed in production)
 
 
 ## 🎯 Features
@@ -72,9 +72,9 @@ This project consists of three main components:
 npm run dev:server
 ```
 
-**Student App only:**
+**Student kiosk only:**
 ```bash
-npm run dev:app
+npm run dev:kiosk
 ```
 
 **Dashboard only:**
@@ -82,30 +82,25 @@ npm run dev:app
 npm run dev:dashboard
 ```
 
-**Fast startup (skip dependency checks):**
-```bash
-npm run dev:clean
-```
-
 ## 📁 Project Structure
 
 ```
 MoodMeter-Code/
-├── srcMTapp/              # Student-facing mood tracker app
-│   ├── components/        # React components (pages, UI)
-│   ├── services/          # API client
-│   ├── styles/            # CSS and theme files
-│   └── vite.config.ts     # Vite configuration
-├── src-DashboardMT/       # Teacher dashboard
-│   ├── components/        # React components (charts, filters)
-│   ├── services/          # API client
-│   ├── types/             # TypeScript type definitions
-│   └── vite.config.ts     # Vite configuration
-├── server/                # Backend API
-│   ├── routes/            # Express routes
-│   ├── data/              # JSON data storage
-│   └── index.js           # Server entry point
-└── package.json           # Root package with dev scripts
+├── kiosk-srcMTapp/              # Student-facing mood tracker (kiosk)
+│   ├── components/              # React components (pages, UI)
+│   ├── services/                # API client (server + Supabase)
+│   ├── styles/                  # CSS and theme files
+│   └── vite.config.ts           # Vite configuration
+├── dashboard-figma-dashboard/   # Teacher dashboard
+│   ├── src/components/          # React components (charts, filters)
+│   ├── src/services/            # API client
+│   └── vite.config.ts           # Vite configuration
+├── server/                      # Backend API
+│   ├── routes/                  # Express routes
+│   ├── lib/                     # Supabase + helpers
+│   └── index.js                 # Server entry point
+├── src/                         # Standalone Vite app (deployed via vercel.json)
+└── package.json                 # Root package with dev scripts
 ```
 
 ## 🔧 Configuration
@@ -202,14 +197,14 @@ When you need a new API for correlation or analytics (e.g. combining PurpleAir w
    - Do aggregation/joins here (e.g. fetch moods from Supabase + air quality from PurpleAir, return one combined array).
 
 3. **Create a typed service in the dashboard**  
-   - Add a file under `src-DashboardMT/services/`, for example `correlations.ts`.
+   - Add a file under `dashboard-figma-dashboard/src/services/`, for example `correlations.ts`.
    - Use the helper pattern from `purpleair.ts`:
      - Derive base URL from `VITE_API_BASE_URL`.
      - Define TypeScript interfaces for the response.
      - Export small functions like `fetchMoodAirQualityCorrelations()`.
 
 4. **Render it via a dedicated component**  
-   - Create a component in `src-DashboardMT/components/` (e.g. `MoodAirQualityCorrelation.tsx`).
+   - Create a component in `dashboard-figma-dashboard/src/components/` (e.g. `MoodAirQualityCorrelation.tsx`).
    - Call the service in a `useEffect`, store data in local state, and render charts/cards.
    - Optionally add a new tab in `App.tsx` (like the **Air quality** tab) or a new section inside an existing tab.
 
@@ -254,8 +249,8 @@ The UI design is based on Figma mockups with:
 
 **Build all apps:**
 ```bash
-cd srcMTapp && npm run build
-cd ../src-DashboardMT && npm run build
+cd kiosk-srcMTapp && npm run build
+cd ../dashboard-figma-dashboard && npm run build
 ```
 
 **Backend production:**
