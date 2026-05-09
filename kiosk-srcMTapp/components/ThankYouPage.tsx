@@ -227,6 +227,15 @@ export function ThankYouPage({ selectedEmotion, onReset }: ThankYouPageProps) {
             </p>
           </motion.div>
 
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className={`${colors.text} opacity-80 max-w-xl mx-auto leading-relaxed`}
+          >
+            {t.validityMessage}
+          </motion.p>
+
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}

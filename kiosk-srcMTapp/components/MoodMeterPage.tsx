@@ -93,21 +93,21 @@ export function MoodMeterPage({ onSelectQuadrant, onSeeAllEmotions }: MoodMeterP
 
         <div className="relative max-w-2xl mx-auto">
           {/* Axis Labels */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className={`absolute -top-12 left-1/2 -translate-x-1/2 ${colors.text} opacity-60`}
+            className={`absolute -top-12 left-1/2 -translate-x-1/2 ${colors.text} opacity-60 whitespace-nowrap`}
           >
-            {t.highEnergy}
+            <span aria-hidden="true">↑ </span>{t.highEnergy}
           </motion.div>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className={`absolute -bottom-12 left-1/2 -translate-x-1/2 ${colors.text} opacity-60`}
+            className={`absolute -bottom-12 left-1/2 -translate-x-1/2 ${colors.text} opacity-60 whitespace-nowrap`}
           >
-            {t.lowEnergy}
+            <span aria-hidden="true">↓ </span>{t.lowEnergy}
           </motion.div>
           <motion.div 
             initial={{ opacity: 0 }}
@@ -167,11 +167,20 @@ export function MoodMeterPage({ onSelectQuadrant, onSeeAllEmotions }: MoodMeterP
           </div>
         </div>
 
-        <motion.p 
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.65 }}
+          className={`text-center mt-16 ${colors.text} opacity-50 text-sm`}
+        >
+          {t.legendCaption}
+        </motion.p>
+
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
-          className={`text-center mt-12 ${colors.text} opacity-60`}
+          className={`text-center mt-4 ${colors.text} opacity-60`}
         >
           {t.tapAnyQuadrant}
         </motion.p>

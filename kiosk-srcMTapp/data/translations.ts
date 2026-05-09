@@ -15,7 +15,8 @@ export const translations = {
     selectYourEnergyAndPleasantness: 'Select your energy and pleasantness level',
     tapAnyQuadrant: 'Tap any quadrant to explore specific emotions',
     seeAllEmotions: 'See All 100 Emotions',
-    
+    legendCaption: 'Vertical = energy level · Horizontal = pleasantness',
+
     // Quadrants
     highEnergyPleasant: 'High Energy\nPleasant',
     highEnergyUnpleasant: 'High Energy\nUnpleasant',
@@ -42,6 +43,7 @@ export const translations = {
     // Thank You Page
     thankYou: 'Thank You!',
     youSuccessfullyLogged: "You've successfully logged your mood",
+    validityMessage: "There is no right or wrong way to feel. All emotions are valid. For support contact your Student Health & Wellness Center.",
     youreFeeling: "You're feeling:",
     supportMessage: "We're here to support your mental health and well-being.",
     mentalHealth: 'Mental Health',
@@ -85,7 +87,8 @@ export const translations = {
     selectYourEnergyAndPleasantness: 'Selecciona tu nivel de energía y agrado',
     tapAnyQuadrant: 'Toca cualquier cuadrante para explorar emociones específicas',
     seeAllEmotions: 'Ver las 100 Emociones',
-    
+    legendCaption: 'Vertical = nivel de energía · Horizontal = agrado',
+
     // Quadrants
     highEnergyPleasant: 'Alta Energía\nAgradable',
     highEnergyUnpleasant: 'Alta Energía\nDesagradable',
@@ -112,6 +115,7 @@ export const translations = {
     // Thank You Page
     thankYou: '¡Gracias!',
     youSuccessfullyLogged: 'Has registrado tu estado de ánimo exitosamente',
+    validityMessage: 'No hay forma correcta o incorrecta de sentir. Todas las emociones son válidas. Para apoyo, contacta tu Centro de Salud y Bienestar Estudiantil.',
     youreFeeling: 'Te sientes:',
     supportMessage: 'Estamos aquí para apoyar tu salud mental y bienestar.',
     mentalHealth: 'Salud Mental',
@@ -155,7 +159,8 @@ export const translations = {
     selectYourEnergyAndPleasantness: 'Выберите уровень энергии и приятности',
     tapAnyQuadrant: 'Нажмите на любой квадрант, чтобы изучить конкретные эмоции',
     seeAllEmotions: 'Посмотреть Все 100 Эмоций',
-    
+    legendCaption: 'По вертикали = уровень энергии · По горизонтали = приятность',
+
     // Quadrants
     highEnergyPleasant: 'Высокая Энергия\nПриятное',
     highEnergyUnpleasant: 'Высокая Энергия\nНеприятное',
@@ -182,6 +187,7 @@ export const translations = {
     // Thank You Page
     thankYou: 'Спасибо!',
     youSuccessfullyLogged: 'Вы успешно зафиксировали своё настроение',
+    validityMessage: 'Нет правильного или неправильного способа чувствовать. Все эмоции имеют значение. За поддержкой обратитесь в Центр Здоровья и Благополучия Студентов.',
     youreFeeling: 'Вы чувствуете:',
     supportMessage: 'Мы здесь, чтобы поддержать ваше психическое здоровье и благополучие.',
     mentalHealth: 'Психическое Здоровье',

@@ -22,8 +22,8 @@ import { motion, AnimatePresence } from "motion/react";
 type Page = "welcome" | "mood-meter" | "sub-emotions" | "all-emotions" | "thank-you";
 
 // Inactivity timings (adjust here for different durations)
-const PROMPT_TIMEOUT = 10000; // Show prompt after 10 seconds
-const COUNTDOWN_SECONDS = 5; // Countdown duration once prompt appears
+const PROMPT_TIMEOUT = 60000; // Show prompt after 60 seconds
+const COUNTDOWN_SECONDS = 15; // Countdown duration once prompt appears
 const RESET_TIMEOUT = COUNTDOWN_SECONDS * 1000; // Reset once countdown completes
 const CLICK_DEBOUNCE_MS = 500; // Prevent rapid clicks - only process first click within this window
 
@@ -35,7 +35,7 @@ function AppContent() {
   const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);
   
   const { getThemeColors } = useTheme();
-  const { language } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const t = useTranslation(language);
   const colors = getThemeColors();
   
@@ -108,16 +108,18 @@ function AppContent() {
     setCurrentPage("welcome");
     setShowWarning(false);
     setCountdown(COUNTDOWN_SECONDS);
-  }, [clearTimers]);
+    setLanguage('en');
+  }, [clearTimers, setLanguage]);
 
   const resetTimers = useCallback(() => {
     clearTimers();
     
-    // Skip timers on welcome page and during emotion selection
+    // Skip timers on welcome page only
     const shouldTrack =
       currentPage === "mood-meter" ||
       currentPage === "sub-emotions" ||
-      currentPage === "all-emotions";
+      currentPage === "all-emotions" ||
+      currentPage === "thank-you";
 
     if (!shouldTrack) {
       setShowWarning(false);
