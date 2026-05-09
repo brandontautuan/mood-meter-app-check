@@ -91,25 +91,17 @@ export function MoodMeterPage({ onSelectQuadrant, onSeeAllEmotions }: MoodMeterP
           </p>
         </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className={`text-center mb-4 ${colors.text} opacity-60 whitespace-nowrap`}
+        >
+          <span aria-hidden="true">↑ </span>{t.highEnergy}
+        </motion.div>
+
         <div className="relative max-w-2xl mx-auto">
-          {/* Axis Labels */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className={`absolute -top-12 left-1/2 -translate-x-1/2 ${colors.text} opacity-60 whitespace-nowrap`}
-          >
-            <span aria-hidden="true">↑ </span>{t.highEnergy}
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className={`absolute -bottom-12 left-1/2 -translate-x-1/2 ${colors.text} opacity-60 whitespace-nowrap`}
-          >
-            <span aria-hidden="true">↓ </span>{t.lowEnergy}
-          </motion.div>
-          <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
@@ -117,7 +109,7 @@ export function MoodMeterPage({ onSelectQuadrant, onSeeAllEmotions }: MoodMeterP
           >
             {t.unpleasant}
           </motion.div>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
@@ -167,22 +159,22 @@ export function MoodMeterPage({ onSelectQuadrant, onSeeAllEmotions }: MoodMeterP
           </div>
         </div>
 
-        <motion.p
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.65 }}
-          className={`text-center mt-16 ${colors.text} opacity-50 text-sm`}
+          transition={{ delay: 0.4 }}
+          className={`text-center mt-4 ${colors.text} opacity-60 whitespace-nowrap`}
         >
-          {t.legendCaption}
-        </motion.p>
+          <span aria-hidden="true">↓ </span>{t.lowEnergy}
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className={`text-center mt-4 ${colors.text} opacity-60`}
+          transition={{ delay: 0.65 }}
+          className={`text-center mt-6 ${colors.text} opacity-50 text-sm`}
         >
-          {t.tapAnyQuadrant}
+          {t.legendCaption}
         </motion.p>
       </motion.div>
     </div>
